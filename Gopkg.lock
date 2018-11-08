@@ -2,15 +2,15 @@
 
 
 [[projects]]
-  digest = "1:eecb3e6cef98036972582ffff7d3e340aef15f075236da353aa3e7fb798fdb21"
+  digest = "1:3fa846cb3feb4e65371fe3c347c299de9b5bc3e71e256c0d940cd19b767a6ba0"
   name = "github.com/eclipse/paho.mqtt.golang"
   packages = [
     ".",
     "packets",
   ]
   pruneopts = ""
-  revision = "aff15770515e3c57fc6109da73d42b0d46f7f483"
-  version = "v1.1.0"
+  revision = "36d01c2b4cbeb3d2a12063e4880ce30800af9560"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:dbbeb8ddb0be949954c8157ee8439c2adfd8dc1c9510eb44a6e58cb68c3dce28"
@@ -30,14 +30,15 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:898bc7c802c1e0c20cecd65811e90b7b9bc5651b4a07aefd159451bfb200b2b3"
+  digest = "1:33ff56b9cc51b337d3bf1f5b375c9928221f7cfa72e94773d48482d5437f6468"
   name = "golang.org/x/net"
   packages = [
+    "internal/socks",
     "proxy",
     "websocket",
   ]
   pruneopts = ""
-  revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
+  revision = "a544f70c90f196e50d198126db0c4cb2b562fec0"
 
 [solve-meta]
   analyzer-name = "dep"

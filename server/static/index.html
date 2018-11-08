@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Feedback button</title>
+    <style type="text/css" media="screen">
+.feedback{
+  position: relative;
+  height: auto;
+}
+.counts{
+  position: relative;
+  margin-top: 30px;
+}
+.count{
+  width: 256px;
+  height: 256px;
+  display: inline-block;
+  text-align: center;
+  padding-left: 20px;
+  font-size: 70px;
+}
+.image{
+  display:inline-block;
+  padding-left: 20px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="feedback">
+        <span class="image"><img src="/neutral.png" height="256" width="256" alt=""/></span>
+        <span class="image"><img src="/happy.png" height="256" width="256" alt=""/></span>
+        <span class="image"><img src="/angry.png" height="256" width="256" alt=""/></span>
+        <script src="jquery-3.3.1.min.js" charset="utf-8"></script>
+      </div>
+      <div class="counts">
+        <div class="count" id="neutral">
+          <span id="neutral-text">0</span>
+        </div>
+        <div class="count" id="happy">
+          <span id="happy-text">0</span>
+        </div>
+        <div class="count" id="angry">
+          <span id="angry-text">0</span>
+        </div>
+      </div>
+    </div>
+    <script charset="utf-8">
+(function poll() {
+    setTimeout(function() {
+        $.ajax({
+            url: "/count",
+            type: "GET",
+            dataType: 'json',
+            success: function(data) {
+                $('#neutral-text').text(data["device-1"].neutral)
+                $('#happy-text').text(data["device-1"].positive)
+                $('#angry-text').text(data["device-1"].negative)
+            },
+            complete: poll,
+            timeout: 500
+        })
+    }, 1000);
+})();
+    </script>
+  </body>
+</html>

@@ -1,26 +1,24 @@
 version: "3"
 services:
-
   mosquitto:
-    image: ansi/mosquitto
+    image: toke/mosquitto
     container_name: mosquitto
     ports:
     - 1883:1883
-    entrypoint: /usr/local/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
+    - 9001:9001
     volumes:
     - ./etc/mosquitto:/etc/mosquitto:ro
     - ./var/log/mosquitto:/var/log/mosquitto:rw
-
+    network_mode: host
   feedbackbtn-backend:
-    image: feedbackbtn-backend:latest
+    build: .
     container_name: feedbackbtn-backend
-    links:
-    - "mosquitto:mosquitto"
+    network_mode: host
     depends_on:
     - mosquitto
     ports:
     - "8000:8000"
+    volumes:
+    - ./server/static:/static
     environment:
-    - MQTT_URL=mqtt://<user>:<pass>@<server>.cloudmqtt.com:<port>/<topic>
-    networks:
-    - default
+    - STATIC=/static
