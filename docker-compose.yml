@@ -3,9 +3,9 @@ services:
   mosquitto:
     image: toke/mosquitto
     container_name: mosquitto
+    entrypoint: mosquitto -v
     ports:
     - 1883:1883
-    - 9001:9001
     volumes:
     - ./etc/mosquitto:/etc/mosquitto:ro
     - ./var/log/mosquitto:/var/log/mosquitto:rw

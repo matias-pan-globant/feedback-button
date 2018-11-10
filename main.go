@@ -13,21 +13,31 @@ import (
 func main() {
 	var (
 		uri   = "tcp://127.0.0.1:1883"
-		topic = "feedback"
+		topic = "up"
 	)
 	go server.Run(os.Getenv("STATIC"))
 
-	go mqtt.Listen(uri, topic)
+	client := mqtt.New(uri)
+	client.HandleFunc(server.MessageHandler)
+	client.Listen(topic)
 
-	log.Println("connecting")
-	client := mqtt.Connect("pub", uri)
-	timer := time.NewTicker(1 * time.Second)
-	for t := range timer.C {
-		log.Println("publishing")
-		token := client.Publish(topic, 0, false, t.String())
-		switch v := token.(type) {
-		case *mqttgo.PublishToken:
-			log.Println(v.Error())
-		}
+	opts := mqttgo.NewClientOptions()
+	opts.AddBroker(uri)
+	opts.SetPassword("test")
+	opts.SetUsername("test")
+	opts.SetClientID("wimo")
+	pub := mqttgo.NewClient(opts)
+	token := pub.Connect()
+	for !token.WaitTimeout(3 * time.Second) {
+	}
+	if err := token.Error(); err != nil {
+		log.Fatal(err)
+	}
+	pub.Publish(topic, 0, false, "device-1")
+	ticker := time.NewTicker(time.Second * 2)
+	for range ticker.C {
+		pub.Publish("device-1/button", 0, false, "1")
+		pub.Publish("device-1/button", 0, false, "2")
+		pub.Publish("device-1/button", 0, false, "3")
 	}
 }
