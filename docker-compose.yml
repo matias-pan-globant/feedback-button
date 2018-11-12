@@ -11,7 +11,7 @@ services:
     - ./var/log/mosquitto:/var/log/mosquitto:rw
     network_mode: host
   feedbackbtn-backend:
-    build: .
+    image: matipan/feedback-button
     container_name: feedbackbtn-backend
     network_mode: host
     depends_on:

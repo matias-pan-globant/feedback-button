@@ -75,6 +75,13 @@ func count(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(payload))
 }
 
+func reset(w http.ResponseWriter, r *http.Request) {
+	mu.Lock()
+	counts = map[string]Count{}
+	mu.Unlock()
+	w.WriteHeader(http.StatusOK)
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 }
 
@@ -82,5 +89,6 @@ func Run(path string) {
 	http.HandleFunc("/count", count)
 	log.Println(http.Dir(path))
 	http.Handle("/", http.FileServer(http.Dir(path)))
+	http.HandleFunc("/reset", reset)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
